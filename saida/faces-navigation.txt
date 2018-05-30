@@ -1,0 +1,9 @@
+
+<navigation-rule>
+        <from-view-id>/pages/seguranca/fornecedors/novo-fornecedor.xhtml</from-view-id>
+        <navigation-case>
+        <from-outcome>voltar-fornecedors</from-outcome>
+        <to-view-id>/pages/seguranca/fornecedors/crud-fornecedors.xhtml</to-view-id>
+        </navigation-case>
+        </navigation-rule>
+</navigation-rule>

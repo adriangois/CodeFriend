@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head></h:head>
+
+
+<body>
+<ui:composition template="/templates/template.xhtml">
+    <ui:define name="content">
+        <h:form>
+            <p:panel header="#{msg['label.dados.${nomeCrud}']}">
+                <p:panelGrid styleClass="ui-noborder" id="grid${nomeCrudCamel}">
+                    #foreach($v in $listaCampos)
+                    <p:row>
+                    <p:column colspan="1">
+                        <p:outputLabel for="${v.name}" value="#{msg['label.${nomeCrud}.${v.name}']}"/>
+                    </p:column>
+                    <p:column colspan="1">
+                        #if($v.type.simpleName == "Date")
+                            <p:calendar id="${v.name}" placeholder="#{msg['label.${nomeCrud}.${v.name}']}" size="30" value="#{${mb}.${nomeCrudSalvar}.${v.name}}" required="true"/>
+                        #elseif($v.type.simpleName.contains("VO"))
+                            <p:selectOneMenu id="${v.name}" style="width:135px"
+                                value="#{${mb}.${nomeCrudSalvar}.${v.name}}" required="true">
+                             <f:selectItem itemValue="ITEM" itemLabel="ITEM"/>
+                            </p:selectOneMenu>
+                        #else
+                            <p:inputText id="${v.name}" placeholder="#{msg['label.${nomeCrud}.${v.name}']}" size="30" value="#{${mb}.${nomeCrudSalvar}.${v.name}}" required="true"/>
+                        #end
+                    </p:column>
+                    </p:row>
+                    #end
+                </p:panelGrid>
+                <p:separator/>
+                <h:panelGrid columns="2">
+                    <p:commandButton value="#{msg['label.salvar']}" style="margin-right:20px" update="grid${nomeCrudCamel}" action="#{${mb}.${nomeActionSalvar}}"/>
+                    <p:button value="#{msg['label.voltar']}" outcome="voltar-${nomeCrud}s" />
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+
+    </ui:define>
+</ui:composition>
+</body>
+</html>

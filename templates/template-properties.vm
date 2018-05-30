@@ -1,0 +1,6 @@
+#foreach($c in $listaCampos)
+label.${nomeCrud}.${c.name}=$c.name.substring(0,1).toUpperCase()$c.name.substring(1, $c.name.length())
+#end
+label.dados.${nomeCrud}=Dados do ${nomeCrud}
+label.novo.${nomeCrud}=Novo ${nomeCrud}
+title.lista.${nomeCrud}=Gerenciamento de ${nomeCrud}

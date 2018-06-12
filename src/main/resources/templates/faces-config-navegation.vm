@@ -1,0 +1,9 @@
+
+<navigation-rule>
+        <from-view-id>$fromViewId</from-view-id>
+        <navigation-case>
+        <from-outcome>$fromOutCome</from-outcome>
+        <to-view-id>$toViewId</to-view-id>
+        </navigation-case>
+        </navigation-rule>
+</navigation-rule>

@@ -1,0 +1,8 @@
+tps:
+    filtro_bootstrap
+obj:
+    name = protasio
+    fields:
+        local-in
+        cidade-sl
+        vencidos-ch

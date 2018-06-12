@@ -1,0 +1,21 @@
+
+import persistence.dao.generico.GenericDAO;
+
+public class ${nameClass}DAO extends GenericDAO<${nameClass}DTO>
+{
+	/**
+	 *
+	 */
+
+	@Override
+	public String getEndpointName()
+	{
+		return "${nameClassLower}";
+	}
+
+	@Override
+	public Class<${nameClass}DTO> getClaxx() {
+		return ${nameClass}DTO.class;
+	}
+
+}

@@ -1,0 +1,95 @@
+package ${package};
+
+#if(${containList})
+import java.util.List;
+#end
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.Column;
+import java.io.Serializable;
+import java.time.ZonedDateTime;
+
+/**
+* Created by CodeFriend ABG Solucoes http://www.abgsolucoes.com.br/codefriend  on ${dateCreated}.
+*/
+@Entity
+public class ${nameClass} implements Serializable{
+
+#foreach($c in $listFields.keySet())##
+#if($listFields.get($c) == "int")
+    @Column(name="$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)", nullable=false)
+    private int $c;
+    //Getter and Setter
+    public void set$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(int s){
+    this.$c = s;
+    }
+    public int get$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(){
+    return this.$c;
+    }
+#elseif($listFields.get($c) == "str")##
+    @Column(name="$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)", nullable=false)
+    private String $c;
+    //Getter and Setter
+    public void set$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(String s){
+    this.$c = s;
+    }
+    public String get$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(){
+    return this.$c;
+    }
+#elseif($listFields.get($c) == "dt")##
+    @Column(name="$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)", nullable=false)
+    private ZonedDateTime $c;
+    //Getter and Setter
+    public void set$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(ZonedDateTime s){
+    this.$c = s;
+    }
+    public ZonedDateTime get$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(){
+    return this.$c;
+    }
+#elseif($listFields.get($c) == "lg")##
+    @Column(name="$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)", nullable=false)
+    private Long $c;
+    //Getter and Setter
+    public void set$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(Long s){
+    this.$c = s;
+    }
+    public Long get$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(){
+    return this.$c;
+    }
+#elseif($listFields.get($c) == "db")##
+    @Column(name="$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)", nullable=false)
+    private Double $c;
+    //Getter and Setter
+    public void set$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(Double s){
+    this.$c = s;
+    }
+    public Double get$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(){
+    return this.$c;
+    }
+#elseif($listFields.get($c) == "lt")##
+    @Column(name="$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)", nullable=false)
+    private List $c;
+    //Getter and Setter
+    public void set$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(List s){
+    this.$c = s;
+    }
+    public List get$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(){
+    return this.$c;
+    }
+#elseif($listFields.get($c).startsWith("rel"))##
+#if($listFields.get($c).endsWith("mo"))##
+    @ManyToOne(optional=false)
+#end##
+    @JoinColumn(name="$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)Fk", referencedColumnName="Id", nullable=false)
+    private $c.trim().substring(0,1).toUpperCase()$c.trim().substring(1) $c.trim();
+    //Getter and Setter
+    public void set$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)($c.trim().substring(0,1).toUpperCase()$c.trim().substring(1) s){
+    this.$c.trim() = s;
+    }
+    public $c.trim().substring(0,1).toUpperCase()$c.trim().substring(1) get$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(){
+    return this.$c.trim();
+    }
+#end##
+#end
+}

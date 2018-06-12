@@ -1,0 +1,10 @@
+package ${package}
+
+import ${package}.persistency.model.seguranca.${nameClass};
+import ${package}.persistency.repository.CustomPagingAndSortingRepository;
+
+public interface ${nameClass}Repository extends CustomPagingAndSortingRepository<${nameClass}, Long>
+{
+//${nameClass} findByNomeIgnoreCaseContaining( String nome );
+
+}

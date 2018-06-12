@@ -1,0 +1,197 @@
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.ws.rs.NotFoundException;
+
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
+
+import bean.generic.GenericCrudBean;
+import commons.annotation.ExceptionHandler;
+import commons.enumeration.SituacaoEnum;
+import commons.utils.FilterData;
+import dto.seguranca.${nameClass}DTO;
+import dto.seguranca.ModuloDTO;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import net.sf.jasperreports.engine.JRException;
+
+@Named
+@ViewScoped
+public class ${nameClass}Bean extends GenericCrudBean<${nameClass}DAO, ${nameClass}DTO>
+{
+
+/**
+*
+*/
+
+private ${nameClass}DAO dao = new ${nameClass}DAO();
+
+@Getter @Setter
+private Filtro filtro = new Filtro();
+
+public ${nameClass}Bean()
+{
+setDao( dao );
+setDtoClass( ${nameClass}DTO.class );
+}
+
+@Override
+public void registroNovo()
+{
+setRegistro( new ${nameClass}DTO() );
+getRegistro().setModulo( new ModuloDTO() );
+}
+
+
+public List<${nameClass}DTO> listaCombo()
+    {
+    List<${nameClass}DTO> retorno = new ArrayList<${nameClass}DTO>();
+
+        Map<String, Object> fm = new HashMap<String, Object>();
+        fm.put("stsSituacao", SituacaoEnum.ATIVO );
+
+        String sortField = "nome";
+        List<Order> orderList = new ArrayList<Order>();
+            orderList.add( new Order( Direction.ASC  , sortField ) );
+            Sort sort = new Sort( orderList );
+
+            FilterData fd = FilterData
+            .builder()
+            .page( null )
+            .pageSize( null )
+            .sort( sort )
+            .fields( fm )
+            .build();
+
+            retorno = getDao().list( fd );
+
+            return retorno;
+            }
+
+            @Getter
+            @Setter
+            @NoArgsConstructor
+            public class Filtro extends FilterData
+            {
+            private String 			codigo;
+            private String 			nome;
+            private String 			descricao;
+            private Long 			idModulo;
+            private SituacaoEnum	stsSituacao;
+            }
+
+
+            @PostConstruct
+            public void init()
+            {
+            setLista ( new LazyDataModel<${nameClass}DTO>()
+                {
+
+                /**
+                *
+                */
+                private static final long serialVersionUID = -5075020897713289125L;
+
+                @Override
+                @ExceptionHandler
+                public List<${nameClass}DTO> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters)
+                    {
+                    Map<String, Object> fm = new HashMap<String, Object>();
+
+                    if ( filters != null )
+                    {
+                    fm = filters;
+                    }
+                    /** SAMPLE
+                    **/
+                    if ( filtro.getCodigo() != null && !filtro.getCodigo().isEmpty() )
+                    //        {
+                    //        fm.put("codigo", filtro.getCodigo() );
+                    //        }
+                    //
+                    //        if ( filtro.getNome() != null && !filtro.getNome().isEmpty() )
+                    //        {
+                    //        fm.put("nome", filtro.getNome() );
+                    //        }
+                    //
+                    //        if ( filtro.getDescricao() != null && !filtro.getDescricao().isEmpty() )
+                    //        {
+                    //        fm.put("descricao", filtro.getDescricao() );
+                    //        }
+                    //
+                    //        if ( filtro.getIdModulo() != null )
+                    //        {
+                    //        fm.put("idModulo", filtro.getIdModulo() );
+                    //        }
+                    //
+                    //        if ( filtro.getStsSituacao() != null )
+                    //        {
+                    //        fm.put("stsSituacao", filtro.getStsSituacao() );
+                    //        }
+
+                    // Converte a direção da ordenação do primefaces para o sort do spring
+                    Sort sort = null;
+                    if ( sortField != null)
+                    {
+                    List<Order> orderList = new ArrayList<Order>();
+                        orderList.add( new Order( sortOrder == SortOrder.DESCENDING ? Direction.DESC : Direction.ASC  , sortField ) );
+                        sort = new Sort( orderList );
+                        }
+
+                        FilterData fd = FilterData
+                        .builder()
+                        .page( /*first == 0 ? null :*/ first / pageSize )
+                        .pageSize( pageSize )
+                        .sort( sort )
+                        .fields( fm )
+                        .build();
+
+                        List<${nameClass}DTO> result = getDao().list( fd );
+                            getLista().setRowCount( fd.getTotalElements().intValue() );
+                            return result;
+                            }
+
+
+                            @Override
+                            public Object getRowKey(${nameClass}DTO reg)
+                            {
+                            return reg != null ? reg.getId() : null;
+                            }
+
+    @Override
+    public ${nameClass}DTO getRowData( String rowKey )
+    {
+    @SuppressWarnings("unchecked")
+    List<${nameClass}DTO> listaReg = (List<${nameClass}DTO>) getWrappedData();
+        Long value = Long.valueOf( rowKey );
+
+        for (${nameClass}DTO reg: listaReg) {
+        if (reg.getId().equals( value ) )
+        {
+        return reg;
+        }
+        }
+
+        return null;
+        }
+
+        });
+        }
+
+
+}

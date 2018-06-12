@@ -1,0 +1,93 @@
+package ${package};
+
+import ${packageService}${nomeCrudCamel}Service;
+import ${packageVO}.${nomeVOCamel};
+
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import java.util.List;
+
+
+/**
+ * Created by adrian/velocity on ${dataCriacao}.
+ */
+@ManagedBean(name = "${mb}")
+@ViewScoped
+public class ${nomeClasse} extends BeanAbstract {
+
+    private ${nomeVOCamel} ${voSelecionado};
+    private ${nomeVOCamel} ${nomeCrudSalvar};
+    private List<${nomeVOCamel}> ${nomeLista};
+    private String filtroBusca;
+
+    @ManagedProperty(value = "#{${nomeCrud}Service}")
+    private ${nomeCrudCamel}Service ${nomeCrud}Service;
+
+    @PostConstruct
+    public void init(){
+        ${nomeCrudSalvar} = new ${nomeVOCamel}();
+        //TODO
+        //Carrega Combos ou qualquer parametro para tela
+        //Load combobox or anybody.
+    }
+
+    //Actions
+    public void salvar(){
+            this.${nomeCrud}Service.save(this.${nomeCrudSalvar});
+            addMessage(null, new FacesMessage("save"));
+    }
+
+    public void buscar(){
+
+    }
+
+    public void deletar(){
+        this.${nomeCrud}Service.delete(this.${voSelecionado}.getId${nomeCrudCamel}());
+        this.${nomeLista}.remove(this.${voSelecionado});
+    }
+
+    public void atualizar(){
+        //TODO
+    }
+
+
+
+    //getters and setters
+    public void set${nomeCrudCamel}Service(${nomeCrudCamel}Service ${nomeCrud}Service){
+        this.${nomeCrud}Service = ${nomeCrud}Service;
+    }
+
+    public void get${nomeCrudCamel}Service(){
+            return  ${nomeCrud}Service;
+    }
+
+
+    public String getFiltroBusca(){
+        return this.filtroBusca;
+    }
+
+    public void setFiltroBusca(String filtroSelecionado){
+            this.filtroBusca = filtroSelecionado;
+    }
+
+    public List<${nomeVOCamel}> get${nomeListaCamel}(){
+        return ${nomeLista};
+    }
+
+
+   public ${nomeVOCamel} get${nomeCrudSalvarCamel}(){
+        return ${nomeCrudSalvar};
+   }
+
+   public void set${nomeCrudSalvarCamel}(${nomeVOCamel} vo){
+           this.${nomeCrudSalvar} = vo;
+   }
+
+
+
+
+}

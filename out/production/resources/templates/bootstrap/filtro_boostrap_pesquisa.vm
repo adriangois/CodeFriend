@@ -1,0 +1,54 @@
+<div class="card text-center">
+    <div class="card-header">
+        Filtro
+    </div>
+    <div class="card-body">
+
+#if(${multiSelect})
+
+    <div class="form-group">
+            <div class="row">
+                <label class="col-md-2 control-label" for="multiselect1">Multiple select</label>
+                <div class="col-md-12">
+                    <select multiple="multiple" id="multiselect1" class="form-control custom-scroll" title="Click to Select a City">
+                        <option>Amsterdam</option>
+                        <option selected="selected">Atlanta</option>
+                        <option>Baltimore</option>
+                        <option>Boston</option>
+                        <option>Buenos Aires</option>
+                        <option>Calgary</option>
+                        <option selected="selected">Chicago</option>
+                        <option>Denver</option>
+                        <option>Dubai</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    #end
+    #if(${input})
+        <div class="form-group">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder=".col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <label class="toggle">
+                            <input type="checkbox" name="checkbox-toggle" checked="checked">
+                            <i data-swchon-text="ON" data-swchoff-text="OFF"></i>Vencidos</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    #end
+    <button
+
+    </div>
+
+
+
+</div>
+
+

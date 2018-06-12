@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+
+<h:head>
+
+    <style type="text/css">
+
+    </style>
+
+</h:head>
+<body>
+
+<ui:decorate template="/templates/template.xhtml">
+    <ui:define name="content">
+
+        <h:form id="form" prependId="false">
+
+
+            <p:panel id="panel" header="#{msg['title.lista.${nomeCrud}']}"
+                     style="margin-bottom:10px;">
+
+                <p:messages id="messages" />
+
+                <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="5">
+                    <h:outputLabel for="filtroSelecionado" value="#{msg['label.filtroSelecionado']}" style="margin-right:20px" />
+                    <p:inputText id="filtroSelecionado" required="false" label="#{msg['label.filtroSelecionado']}" value="#{${mb}.${nomeParamBusca}}">
+                    </p:inputText>
+
+
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                        <h:outputText value="#{msg['label.button.filtroSelecionado']}" style="margin-right:10px; margin-left:10px" />
+                        <p:selectOneButton>
+                            <f:selectItem itemLabel="#{msg['label.${nomeCrud}.por1']}"
+                            itemValue="#{msg['label.${nomeCrud}.value1']}" />
+                            <f:selectItem itemLabel="#{msg['label.${nomeCrud}.por2']}"
+                            itemValue="#{msg['label.${nomeCrud}.value2']}" />
+                            <f:selectItem itemLabel="#{msg['label.filtroSelecionado.${nomeCrud}.por3']}"
+                            itemValue="#{msg['label.${nomeCrud}.value3']}" />
+                        </p:selectOneButton>
+                 </h:panelGrid>
+                 </h:panelGrid>
+
+                <p:separator />
+
+                <h:panelGrid columns="2">
+                    <p:commandButton value="#{msg['label.pesquisar']}" icon="ui-icon-check" action="#{${mb}.${nomeMetodoBusca}}" update="${tableUpdate}"/>
+                    <p:commandButton value="#{msg['label.novo.${nomeCrud}']}" action="${nomeForward}"
+                                     ajax="false" icon="ui-icon-check" />
+                </h:panelGrid>
+
+            </p:panel>
+
+            <p:dataTable id="${tableUpdate}" var="${nomeCrud}"
+                                     value="#{${mb}.${nomeLista}}" rows="10" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} "
+                                     rowsPerPageTemplate="5,10,15" style="margin-bottom:20px">
+
+                    #foreach($campo in $listaCampos)
+<p:column style="width:30%" headerText="#{msg['label.${nomeCrud}.${campo.name}']}" sortBy="#{${nomeCrud}.${campo.name}}">
+                     <h:outputText value="#{${nomeCrud}.${campo.name}}"/>
+                  </p:column>
+                #end
+
+
+ <!--Dialogs e acoes -->
+<p:column headerText="#{msg['label.acoes']}" style="width:30%;text-align: center">
+<!--Botoes -->
+ <p:panelGrid columns="3">
+         <p:commandButton icon="ui-icon-pencil" update="dlEdicao"
+
+                          oncomplete="PF('editarDialog').show()" title="Editar">
+             <f:setPropertyActionListener
+                     target="#{${mb}.${voSelecionado}}" value="#{${nomeCrud}}" />
+         </p:commandButton>
+         <p:commandButton icon="ui-icon-trash" update="dlRemocao"
+
+                          oncomplete="PF('deletarDialog').show()">
+             <f:setPropertyActionListener
+                     target="#{${mb}.${voSelecionado}}" value="#{${nomeCrud}}" />
+         </p:commandButton>
+         <p:commandButton icon="ui-icon-search"
+                          oncomplete="PF('detalharDialog').show()" update="det${nomeCrud}" title="Detalhar">
+             <f:setPropertyActionListener
+                     target="#{${mb}.${voSelecionado}}" value="#{${nomeCrud}}" />
+         </p:commandButton>
+</p:panelGrid>
+         <!-- Modais  -->
+         <p:dialog width="30%" id="det${nomeCrud}" header="#{msg['label.informacoes.detalhar.${nomeCrud}']}" widgetVar="detalharDialog"
+                   modal="false" showEffect="fade" hideEffect="fade" resizable="false">
+             <p:panelGrid id="panelDetails" columns="2">
+
+             #foreach($vo in ${listaCampos})
+                 <h:outputLabel value="#{msg['label.${nomeCrud}.${vo.name}']}" />
+                 <h:outputText value="#{${mb}.${voSelecionado}.${vo.name}}" />
+             #end
+             </p:panelGrid>
+         </p:dialog>
+
+         <p:dialog width="30%" header="#{msg['remove.label.header.${nomeCrud}']}" id="dlRemocao"
+                   widgetVar="deletarDialog" modal="false" showEffect="fade"
+                   hideEffect="fade" resizable="false">
+             <p:outputPanel id="${nomeCrud}Deletar" style="text-align:center;">
+                 <p:panelGrid columns="2" layout="grid"
+                              rendered="#{not empty ${mb}.${voSelecionado}}">
+                     <h:outputText value="${mb}.${voSelecionado}" inlineStyle="color:red" style="color:red" />
+                     <!--<h:outputText /> -->
+                 </p:panelGrid>
+                 <h:outputText value="#{msg['label.texto.confirma.remove']}" />
+                 <h:panelGrid columns="2">
+                     <p:commandButton value="#{msg['label.sim']}" action="#{${mb}.${nomeMetodoDelete}}" udpate="${tableUpdate}"  oncomplete="PF('deletarDialog').hide()" />
+                     <p:commandButton value="#{msg['label.nao']}"
+                                      oncomplete="PF('deletarDialog').hide()" />
+                 </h:panelGrid>
+
+             </p:outputPanel>
+         </p:dialog>
+
+         <p:dialog width="30%" id="dlEdicao" header="#{msg['edit.label.header.${nomeCrud}']}" widgetVar="editarDialog"
+                   modal="false" showEffect="fade" hideEffect="fade" resizable="false">
+             <p:outputPanel id="${nomeCrud}Editar" style="text-align:center;">
+                 <p:panelGrid columns="2"
+                              rendered="#{not empty ${mb}.${voSelecionado}}">
+                 #foreach($vo in ${listaCampos})
+                    <h:outputLabel value="#{msg['label.${nomeCrud}.${vo.name}']}" />
+                     <h:inputText value="#{${mb}.${voSelecionado}.${vo.name}}" />
+                 #end
+                     <f:facet name="footer">
+                         <p:commandButton value="#{msg['label.salvar']}" update="${tableUpdate}"/>
+                         <p:commandButton value="#{msg['label.cancelar']}"
+                                          oncomplete="PF('editarDialog').hide()" />
+                     </f:facet>
+
+                 </p:panelGrid>
+
+
+             </p:outputPanel>
+         </p:dialog>
+ </p:column> <!-- /End Modais -->
+
+            </p:dataTable>
+     </h:form>
+    </ui:define>
+</ui:decorate>
+</body>
+</html>

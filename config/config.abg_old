@@ -1,0 +1,12 @@
+tps:
+    #vo,endpoint-aterra,bean-aterra,xhtml-aterra
+    #dao-aterra
+    vo,jpa,dao-aterra,endpoint-aterra,repository-aterra, bean-aterra
+obj:
+    name = usuario_visao
+    fields:
+        id-lg
+        usuario-relmo
+        visao-relmo
+pkg:
+    path = aterralimpa.ws

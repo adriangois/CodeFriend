@@ -1,0 +1,67 @@
+package br.com.abgsolucoes.test.dao;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import java.sql.Timestamp;
+import java.util.List;
+import org.apache.commons.lang.NotImplementedException;
+
+/**
+ * Created by adrian on ${dataCriacao}.
+ */
+@ContextConfiguration(classes = {${nomeDaoCamel}.class })
+public class ${nomeDaoCamel}Test extends AbstractUtilTest {
+
+    @Autowired
+    private ${nomeDaoCamel} ${nomeDao};
+
+    @Test
+    public void shouldSaveTest(){
+        ${nomeEntityCamel} entity = new ${nomeEntityCamel}();
+        #foreach($c in $listaSettersEntity)
+            #if($c.parameters[0] == "java.lang.Integer arg0")
+            entity.${c.name}(2);
+            #elseif($c.parameters[0] == "java.lang.String arg0")
+            entity.${c.name}("Aleatorio");
+            #elseif($c.parameters[0] == "java.lang.Double arg0")
+            entity.${c.name}(new Double(2.3));
+            #elseif($c.parameters[0] == "java.sql.Timestamp arg0")
+            entity.${c.name}(new Timestamp(System.currentTimeMillis()));
+            #elseif($c.parameters[0] == "java.lang.Boolean arg0")
+            entity.${c.name}(true);
+            #elseif($c.parameters[0] == "java.lang.Long arg0")
+            entity.${c.name}(3l);
+            #end
+        #end
+
+        ${nomeDao}.save(entity);
+        throw new NotImplementedException();
+    }
+    @Test
+    public void shouldDetailsTest(){
+        ${nomeEntityCamel} entity  = ${nomeDao}.findOne(2);
+        //Asserts
+        throw new NotImplementedException();
+    }
+    @Test
+    public void shouldListTest(){
+        List<${nomeEntityCamel}> entitys  = ${nomeDao}.findAll();
+        throw new NotImplementedException();
+    }
+    @Test
+    public void shouldUpdateTest(){
+        throw new NotImplementedException();
+    }
+    @Test
+    public void shouldDeleteTest(){
+         //${nomeDao}.delete(10000);
+        throw new NotImplementedException();
+    }
+    @Test
+    public void shouldLoadByIdTest(){
+        ${nomeEntityCamel} entity  = ${nomeDao}.findOne(2);
+        throw new NotImplementedException();
+    }
+}
+

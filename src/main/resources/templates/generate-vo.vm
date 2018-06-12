@@ -1,0 +1,71 @@
+package ${package};
+
+import java.time.ZonedDateTime;
+
+
+#if(${containList})
+import java.util.List;
+#end
+/**
+* Created by CodeFriend ABG Solucoes http://www.abgsolucoes.com.br/codefriend  on ${dateCreated}.
+*/
+public class ${nameClass}DTO{
+
+#foreach($c in $listFields.keySet())##
+#if($listFields.get($c) == "int")##
+    private int $c;
+    //Getter and Setter
+    public void set$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(int s){
+        this.$c = s;
+    }
+    public int get$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(){
+        return this.$c;
+    }
+#elseif($listFields.get($c) == "str")##
+    private String $c;
+    //Getter and Setter
+    public void set$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(String s){
+        this.$c = s;
+    }
+    public String get$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(){
+        return this.$c;
+    }
+#elseif($listFields.get($c) == "dt")##
+    private ZonedDateTime $c;
+    //Getter and Setter
+    public void set$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(ZonedDateTime s){
+        this.$c = s;
+    }
+    public ZonedDateTime get$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(){
+        return this.$c;
+    }
+#elseif($listFields.get($c) == "lg")##
+    private Long $c;
+    //Getter and Setter
+    public void set$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(Long s){
+        this.$c = s;
+    }
+    public Long get$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(){
+        return this.$c;
+    }
+#elseif($listFields.get($c) == "db")##
+    private Double $c;
+    //Getter and Setter
+    public void set$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(Double s){
+        this.$c = s;
+    }
+    public Double get$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(){
+        return this.$c;
+    }
+#elseif($listFields.get($c) == "lt")##
+    private List $c;
+    //Getter and Setter
+    public void set$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(List s){
+        this.$c = s;
+    }
+    public List get$c.trim().substring(0,1).toUpperCase()$c.trim().substring(1)(){
+        return this.$c;
+    }
+#end##
+#end
+}

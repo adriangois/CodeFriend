@@ -1,0 +1,65 @@
+package ${package};
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import aterralimpa.ws.commons.enumeration.SituacaoEnum;
+import aterralimpa.ws.commons.error.ResourceNotFoundException;
+import aterralimpa.ws.endpoint.generic.GenericEndpoint;
+import aterralimpa.ws.persistency.model.estrutura.Equipamento;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+    @RestController
+    @Api( tags="${nameClass}" )
+    @RequestMapping( "${nameClassLower}" )
+    public class ${nameClass}Endpoint extends GenericEndpoint<${nameClass}Repository, ${nameClass}, Long> implements Serializable{
+
+    @Autowired
+    private final ${nameClass}Repository dao;
+
+    public ${nameClass}Endpoint( ${nameClass}Repository dao){
+        this.dao = dao;
+    }
+
+    @ApiOperation("Listar")
+    @GetMapping( path = "/listar" )
+    @SuppressWarnings("rawtypes")
+    public ResponseEntity<?> listar(Pageable pageable,
+                                    @RequestParam(value = "id${nameClass}", required=false) final Long id${nameClass}){
+
+        Specification spc = null;
+        spc = new Specification(){
+        @SuppressWarnings("unchecked")
+        @Override
+        public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cb){
+        List<Predicate> predicates = new ArrayList<>();
+        if ( id${nameClass} != null){
+            predicates.add( cb.equal( root.get( "id" ), id${nameClass} ) );
+            }
+        return cb.and( predicates.toArray( new Predicate[0] ) );
+        }
+    };
+
+        @SuppressWarnings("unchecked")
+        Page<?> page = getRepository().findAll( spc, pageable );
+        return new ResponseEntity<>( page, HttpStatus.OK );
+    }
+}
